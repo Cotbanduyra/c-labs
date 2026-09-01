@@ -7,9 +7,9 @@ void main(int argc, char* argv[]){
     int low_gran, high_gran;
 
     printf("low_edge: ");
-    scanf("%d", low_gran);
+    scanf("%d", &low_gran);
     printf("high_edge: ");
-    scanf("%d", high_gran);
+    scanf("%d", &high_gran);
 
 
     printf("l1 l2 l3\n");
@@ -31,25 +31,37 @@ void main(int argc, char* argv[]){
     for (int i = 0; i < length3; i++){
         scanf("%d", &arr3[i]);
     }
+
+    //Chek arr1
     bool was_1 = false;
+    for (int i = 0; i < length1 && !was_1; i++){
+        if (arr1[i] < low_gran || arr1[i] > high_gran)
+            was_1 = true;
+    }
     int p_1 = 1;
     for (int i = 0; i < length1; i++){
-        if (arr1[i] < low_gran || arr1[i] > high_gran){
+        if (arr1[i] < low_gran || arr1[i] > high_gran)
             p_1 *= arr1[i];
-            was_1 = true;
-        }
     }
-///*
+///*  Check arr2
     bool was_2 = false;
-    int p_2 = 1;
-    for (int i = 0; i < length2; i++){
-        if (arr2[i] < low_gran || arr2[i] > high_gran){
-            p_2 *= arr2[i];
-            was_2 = true; 
-        }
+    for (int i = 0; i < length2 && !was_2; i++){
+        if (arr2[i] < low_gran || arr2[i] > high_gran)
+            was_2 = true;
     }
 
+    int p_2 = 1;
+    if (was_2)
+    for (int i = 0; i < length2; i++){
+        if (arr2[i] < low_gran || arr2[i] > high_gran)
+            p_2 *= arr2[i];
+   }
+    //Check arr3
     bool was_3 = false;
+    for (int i = 0; i < length3 && !was_3; i++){
+        if (arr3[i] < low_gran || arr3[i] > high_gran)
+            was_3 = true;
+    }
     int p_3 = 1;
     for (int i = 0; i < length3; i++){
         if (arr3[i] < low_gran || arr3[i] > high_gran){
