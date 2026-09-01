@@ -39,6 +39,7 @@ void main(int argc, char* argv[]){
             was_1 = true;
     }
     int p_1 = 1;
+    if (was_1)
     for (int i = 0; i < length1; i++){
         if (arr1[i] < low_gran || arr1[i] > high_gran)
             p_1 *= arr1[i];
@@ -63,11 +64,10 @@ void main(int argc, char* argv[]){
             was_3 = true;
     }
     int p_3 = 1;
+    if (was_3)
     for (int i = 0; i < length3; i++){
-        if (arr3[i] < low_gran || arr3[i] > high_gran){
+        if (arr3[i] < low_gran || arr3[i] > high_gran)
             p_3 *= arr3[i];
-            was_3 = true;
-        }
     }
 //*/
 
