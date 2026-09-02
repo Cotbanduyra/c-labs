@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#define MIN_INT 1 << (sizeof(int) * 8) - 1
+
 void main(int argc, char* argv[]){
     short int length1, length2, length3;
     int low_gran, high_gran;
@@ -70,13 +72,22 @@ void main(int argc, char* argv[]){
             p_3 *= arr3[i];
     }
 //*/
+    int max = MIN_INT;
+    max = was_1 ? p_1 : max;
+    max = was_2 && max < p_2 ? p_2 : max;
+    max = was_3 && max < p_3 ? p_3 : max;
 
-    if(p_1 > p_2 && p_1 > p_3 && was_1) printf("arr1 have most proizved ");
+    ////// all variants
+    return;
+}
+
+/*
+if(p_1 > p_2 && p_1 > p_3 && was_1) printf("arr1 have most proizved ");
     else if (p_2 > p_3 && p_2 > p_1 && was_2) printf("arr2 have most proizved");
     else if (p_3 > p_1 && p_3 > p_2 && was_3) printf("arr3 have most proizved");
     else if ((p_1 == p_2 || p_1 == p_3 || p_2 == p_3) && ((was_1 && was_2) || (was_2 && was_3) || (was_1 && was_3))) 
         printf("some arrs have same proizved");
     else printf("all wrong");
     printf("\n");
-    return;
-}
+    
+*/
