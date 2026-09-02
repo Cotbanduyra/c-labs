@@ -78,6 +78,32 @@ void main(int argc, char* argv[]){
     max = was_3 && max < p_3 ? p_3 : max;
 
     ////// all variants
+    if (was_1){
+        if(was_2){
+            if(was_3){
+                if(max == p_1 && max == p_2 && max == p_3) printf("all 3 arrs have same proizved\n");
+            }
+            else if (max == p_1 && max == p_2) printf("arr 1 and 2 have same proizved\n");
+        }
+        else if(was_3){
+            if (max == p_3) printf("arr 1 and 3 have same prozved\n");
+        }
+        else printf("arr 1 have mopst proizved\n");
+    }
+    else if(was_2){
+        if(was_3){
+            if (max == p_2 && max == p_3) printf("arr 2 and 3 have same proizved\n");
+        }
+        else printf("arr 2 have most proizved\n");
+    }
+    else if(was_3){
+        if(was_1){
+            if (max == p_1 && max == p_3) printf("arr 1 and 3 have same prozved\n");
+        }
+        else printf("arr 3 have most proizved\n");
+    }
+    else printf("no arrs have elements in range\n");
+
     return;
 }
 
