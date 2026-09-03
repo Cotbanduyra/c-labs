@@ -86,7 +86,7 @@ void main(int argc, char* argv[]){
             else if (max == p_1 && max == p_2) printf("arr 1 and 2 have same proizved\n");
         }
         else if(was_3){
-            if (max == p_3) printf("arr 1 and 3 have same prozved\n");
+            if (max == p_1 && max == p_3) printf("arr 1 and 3 have same prozved\n");
         }
         else printf("arr 1 have mopst proizved\n");
     }
