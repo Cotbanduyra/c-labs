@@ -22,18 +22,14 @@ void enter_matrix(struct matrix* matr){
     }
 }
 
-struct matrix a;
+int Calc_row(const int* row);
 
 void main(int argc, char** argv){
-    a.col;
-    struct matrix* aptr;
-    aptr = &a;
-    (*aptr).row;
     struct matrix mat1, mat2;
     enter_matrix(&mat1);
     enter_matrix(&mat2);
-    printf("%d\n", Check_matrix(&mat1));
-    printf("%d\n", Check_matrix(&mat2));
+//    printf("%d\n", Check_matrix(&mat1));
+//    printf("%d\n", Check_matrix(&mat2));
     return;
 }
 
@@ -57,4 +53,9 @@ void Init_matrix(struct matrix* ar ){
         for(int j = 0; j < ar -> col; j++){ ar -> matr[i][j] = 1;
         printf("%d ", ar -> matr[i][j]);}
     }
+}
+
+int Calc_row(const int* row){
+    int proizved = 1; 
+    return proizved;
 }
