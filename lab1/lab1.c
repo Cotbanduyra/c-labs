@@ -4,6 +4,8 @@
 
 #define MIN_INT 1 << (sizeof(int) * 8) - 1
 
+const int NULL_ = 0;
+
 void main(int argc, char* argv[]){
     short int length1, length2, length3;
     int low_gran, high_gran;
@@ -72,13 +74,48 @@ void main(int argc, char* argv[]){
             p_3 *= arr3[i];
     }
 //*/
-    int max = MIN_INT;
-    max = was_1 ? p_1 : max;
-    max = was_2 && max < p_2 ? p_2 : max;
-    max = was_3 && max < p_3 ? p_3 : max;
-
     ////// all variants
-    if (was_1){
+    int max_val = NULL_;  // Pointer to track which array has the max product
+
+    // Check each valid array and update max_val
+    if (was_1 && (max_val == NULL_ || p_1 > max_val)) max_val = p_1;
+    if (was_2 && (max_val == NULL_ || p_2 > max_val)) max_val = p_2;
+    if (was_3 && (max_val == NULL_ || p_3 > max_val)) max_val = p_3;
+
+    // Now handle all cases based on which arrays exist and have the max value
+    if (max_val == NULL_) {
+        printf("no arrs have elements in range\n");
+    } else {
+        int count = 0;
+
+        // Count how many arrays have the max value
+        if (was_1 && p_1 == max_val) count++;
+        if (was_2 && p_2 == max_val) count++;
+        if (was_3 && p_3 == max_val) count++;
+
+        // Determine which arrays have the max
+        int has1 = was_1 && p_1 == max_val;
+        int has2 = was_2 && p_2 == max_val;
+        int has3 = was_3 && p_3 == max_val;
+
+        if (count == 3) {
+            printf("all 3 arrs have same proizved\n");
+        } else if (count == 2) {
+            if (has1 && has2) printf("arr 1 and 2 have same proizved\n");
+            else if (has1 && has3) printf("arr 1 and 3 have same proizved\n");
+            else if (has2 && has3) printf("arr 2 and 3 have same proizved\n");
+        } else if (count == 1) {
+            if (has1) printf("arr 1 have most proizved\n");
+            else if (has2) printf("arr 2 have most proizved\n");
+            else if (has3) printf("arr 3 have most proizved\n");
+        }
+    }
+        return;
+}
+
+
+/*  All Vars v2
+if (was_1){
         if(was_2){
             if(was_3){
                 if(max == p_1 && max == p_2 && max == p_3) printf("all 3 arrs have same proizved\n");
@@ -104,8 +141,8 @@ void main(int argc, char* argv[]){
     }
     else printf("no arrs have elements in range\n");
 
-    return;
-}
+*/
+
 
 /*
 if(p_1 > p_2 && p_1 > p_3 && was_1) printf("arr1 have most proizved ");
