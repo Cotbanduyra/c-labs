@@ -86,12 +86,13 @@ int Calc_row(const int* row, size_t cols){
     for (int i = 0; !has_not_null && i < cols; i++){
         if (row[i] != 0) has_not_null = true;
     }
-    if (has_not_null)
+    if (has_not_null){
         for (int i = 0; i < cols; i++)
             if (row[i] != 0){
-              //printf("%d %d %d",cols, i, row[i]);
+                //printf("col:%d i:%d el:%d\n",cols, i, row[i]);
                 proizved *= row[i];
             }
+    }
     else 
         proizved = 0;
     return proizved;
