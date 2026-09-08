@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define MIN_INT 1 << (sizeof(int) * 8) - 1
-
-const int NULL_ = 0;
+//#define MIN_INT 1 << (sizeof(int) * 8) - 1
+#define NULL_ 0
 
 void main(int argc, char* argv[]){
     short int length1, length2, length3;
@@ -74,7 +73,6 @@ void main(int argc, char* argv[]){
             p_3 *= arr3[i];
     }
 //*/
-    ////// all variants
     int max_val = NULL_;  // Pointer to track which array has the max product
 
     // Check each valid array and update max_val
@@ -110,39 +108,8 @@ void main(int argc, char* argv[]){
             else if (has3) printf("arr 3 have most proizved\n");
         }
     }
-        return;
+    return;
 }
-
-
-/*  All Vars v2
-if (was_1){
-        if(was_2){
-            if(was_3){
-                if(max == p_1 && max == p_2 && max == p_3) printf("all 3 arrs have same proizved\n");
-            }
-            else if (max == p_1 && max == p_2) printf("arr 1 and 2 have same proizved\n");
-        }
-        else if(was_3){
-            if (max == p_1 && max == p_3) printf("arr 1 and 3 have same prozved\n");
-        }
-        else printf("arr 1 have mopst proizved\n");
-    }
-    else if(was_2){
-        if(was_3){
-            if (max == p_2 && max == p_3) printf("arr 2 and 3 have same proizved\n");
-        }
-        else printf("arr 2 have most proizved\n");
-    }
-    else if(was_3){
-        if(was_1){
-            if (max == p_1 && max == p_3) printf("arr 1 and 3 have same prozved\n");
-        }
-        else printf("arr 3 have most proizved\n");
-    }
-    else printf("no arrs have elements in range\n");
-
-*/
-
 
 /*
 if(p_1 > p_2 && p_1 > p_3 && was_1) printf("arr1 have most proizved ");
