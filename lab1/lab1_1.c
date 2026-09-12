@@ -11,8 +11,8 @@ void main(int argc, char* argv[]){
 
     printf("low_edge: ");
     scanf("%d", &low_gran);
-    //printf("high_edge: ");
-    //scanf("%d", &high_gran);
+    printf("high_edge: ");
+    scanf("%d", &high_gran);
 
 
     printf("l1 l2 l3\n");
@@ -36,61 +36,93 @@ void main(int argc, char* argv[]){
     }
 
     //Chek arr1
-    bool was_1 = false;
+   bool was_1 = false;
     for (int i = 0; i < length1 && !was_1; i++){
-        if (arr1[i] < low_gran)
+        if (arr1[i] < low_gran || arr1[i] > high_gran)
             was_1 = true;
     }
-
-
-    float sr_1 = 1;
-    if (was_1){
-        int k1 = 0;
-        for (int i = 0; i < length1; i++){
-            if (arr1[i] < low_gran){
-                sr_1 *= arr1[i];
-                k1++;
-            }
-        }
-        sr_1 /= k1;
+    int p_1 = 1;
+    if (was_1)
+    for (int i = 0; i < length1; i++){
+        if (arr1[i] < low_gran || arr1[i] > high_gran)
+            p_1 *= arr1[i];
     }
 ///*  Check arr2
     bool was_2 = false;
     for (int i = 0; i < length2 && !was_2; i++){
-        if (arr2[i] < low_gran)
+        if (arr2[i] < low_gran || arr2[i] > high_gran)
             was_2 = true;
     }
-
-    
-    float sr_2 = 1;
-    if (was_2){
-        int k2;
-        for (int i = 0; i < length2; i++){
-            if (arr2[i] < low_gran){
-                sr_2 *= arr2[i];
-                k2++;
-            }
-        }
-        sr_2 /= k2;
-    }
+    int p_2 = 1;
+    if (was_2)
+    for (int i = 0; i < length2; i++){
+        if (arr2[i] < low_gran || arr2[i] > high_gran)
+            p_2 *= arr2[i];
+   }
     //Check arr3
     bool was_3 = false;
     for (int i = 0; i < length3 && !was_3; i++){
-        if (arr3[i] < low_gran)
+        if (arr3[i] < low_gran || arr3[i] > high_gran)
             was_3 = true;
     }
-    float sr_3 = 1;
-    if (was_3){
-        int k3;
-        for (int i = 0; i < length3; i++){
-            if (arr3[i] < low_gran){
-                sr_3 *= arr3[i];
-                k3++;
-            }
-        }
-        sr_3 /= k3; 
+    int p_3 = 1;
+    if (was_3)
+    for (int i = 0; i < length3; i++){
+        if (arr3[i] < low_gran || arr3[i] > high_gran)
+            p_3 *= arr3[i];
     }
-//*/
+
+    if (was_1 && was_2 && was_3) {
+    if (p_1 == p_2 && p_2 == p_3)
+        printf("all 3 arrs have same proizved\n");
+    else if (p_1 == p_2 && p_1 > p_3)
+        printf("arr 1 and 2 have same proizved\n");
+    else if (p_1 == p_3 && p_1 > p_2)
+        printf("arr 1 and 3 have same prozved\n");
+    else if (p_2 == p_3 && p_2 > p_1)
+        printf("arr 2 and 3 have same proizved\n");
+    else if (p_1 > p_2 && p_1 > p_3)
+        printf("arr 1 have most proizved\n");
+    else if (p_2 > p_1 && p_2 > p_3)
+        printf("arr 2 have most proizved\n");
+    else
+        printf("arr 3 have most proizved\n");
+    } else if (was_1 && was_2) {
+        if (p_1 == p_2)
+            printf("arr 1 and 2 have same proizved\n");
+        else if (p_1 > p_2)
+            printf("arr 1 have most proizved\n");
+        else
+            printf("arr 2 have most proizved\n");
+    } else if (was_1 && was_3) {
+        if (p_1 == p_3)
+            printf("arr 1 and 3 have same prozved\n");
+        else if (p_1 > p_3)
+            printf("arr 1 have most proizved\n");
+        else
+            printf("arr 3 have most proizved\n");
+    } else if (was_2 && was_3) {
+        if (p_2 == p_3)
+            printf("arr 2 and 3 have same proizved\n");
+        else if (p_2 > p_3)
+            printf("arr 2 have most proizved\n");
+        else
+            printf("arr 3 have most proizved\n");
+    } else if (was_1) {
+        printf("arr 1 have most proizved\n");
+    } else if (was_2) {
+        printf("arr 2 have most proizved\n");
+    } else if (was_3) {
+        printf("arr 3 have most proizved\n");
+    } else {
+        printf("no arrs have elements in range\n");
+    }
+
+    return;
+}
+
+
+/*
     int min_val  = NULL_;  
     
     if (was_1 && (min_val  == NULL_ || sr_1 < min_val )) min_val  = sr_1;
@@ -123,5 +155,4 @@ void main(int argc, char* argv[]){
             else if (has3) printf("arr 3 have most proizved\n");
         }
     }
-    return;
-}
+*/
