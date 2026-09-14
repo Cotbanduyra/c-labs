@@ -26,6 +26,7 @@ void display_binary_file(const char *filename, const char *label) {
     fclose(file);
 }
 
+
 void main(int argc, char** argv) {
     FILE *text_file, *binary_file;
     char* i_file_name = argv[1]; 

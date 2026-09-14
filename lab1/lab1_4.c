@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "header/forlab2.h"
+
+#include "header/forlab1.h"
 
 void main(int argc, char* argv[]){
     short int length1, length2, length3;

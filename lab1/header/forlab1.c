@@ -1,4 +1,4 @@
-#include "forlab2.h"
+#include "forlab1.h"
 
 void EnterArray(int* arr, short* length){
     printf("len of arr: ");
