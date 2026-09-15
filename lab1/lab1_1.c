@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define MIN_INT 1 << (sizeof(int) * 8) - 1
-#define NULL_ 0
 
 void main(int argc, char* argv[]){
     short int length1, length2, length3;
@@ -120,39 +118,3 @@ void main(int argc, char* argv[]){
 
     return;
 }
-
-
-/*
-    int min_val  = NULL_;  
-    
-    if (was_1 && (min_val  == NULL_ || sr_1 < min_val )) min_val  = sr_1;
-    if (was_2 && (min_val  == NULL_ || sr_2 < min_val )) min_val  = sr_2;
-    if (was_3 && (min_val  == NULL_ || sr_3 < min_val )) min_val  = sr_3;
-
-    if (min_val  == NULL_) {
-        printf("no arrs have elements in range\n");
-    } else {
-        int count = 0;
-
-       
-        if (was_1 && sr_1 == min_val ) count++;
-        if (was_2 && sr_2 == min_val ) count++;
-        if (was_3 && sr_3 == min_val ) count++;
-
-        int has1 = was_1 && sr_1 == min_val ;
-        int has2 = was_2 && sr_2 == min_val ;
-        int has3 = was_3 && sr_3 == min_val ;
-
-        if (count == 3) {
-            printf("all 3 arrs have same proizved\n");
-        } else if (count == 2) {
-            if (has1 && has2) printf("arr 1 and 2 have same proizved\n");
-            else if (has1 && has3) printf("arr 1 and 3 have same proizved\n");
-            else if (has2 && has3) printf("arr 2 and 3 have same proizved\n");
-        } else if (count == 1) {
-            if (has1) printf("arr 1 have most proizved\n");
-            else if (has2) printf("arr 2 have most proizved\n");
-            else if (has3) printf("arr 3 have most proizved\n");
-        }
-    }
-*/

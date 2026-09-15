@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-void EnterArray(int* arr, short* length){
+void EnterArray(int** arr, short* length){
     printf("len of arr: ");
     scanf("%hd", length);
-    arr = (int*) calloc(*length, sizeof(int));
+    *arr = (int*) calloc(*length, sizeof(int));
     printf("elems: ");
     for (int i = 0; i < *length; i++){
-        scanf("%d", &arr[i]);
+        scanf("%d", &(*arr)[i]);
     }
 
 }
@@ -22,7 +22,7 @@ bool CheckArray(int* arr, short length, int lg, int hg){
     return was;
 }
 
-int CalcArray(const int const* arr, short length, int lg, int hg){
+int CalcArray(int* arr, short length, int lg, int hg){
     int p = 1;
     for (int i = 0; i < length; i++){
         if (arr[i] < lg || arr[i] > hg)
@@ -45,31 +45,23 @@ void main(int argc, char* argv[]){
     int* arr2;
     int* arr3;
 
-    EnterArray(arr1, &length1);
-    EnterArray(arr2, &length2);
-    EnterArray(arr3, &length3);
+    EnterArray(&arr1, &length1);
+    EnterArray(&arr2, &length2);
+    EnterArray(&arr3, &length3);
 
     //Chek arr1
     bool was_1 = CheckArray(arr1, length1, low_gran, high_gran);
-    int p_1;
-
-    if (was_1)
-        p_1 = CalcArray(arr1, length1, low_gran, high_gran);
+    
     //Check arr2
     bool was_2 = CheckArray(arr2, length2, low_gran, high_gran);
-    int p_2 = 1;
-
-    if (was_2)
-        p_2 = CalcArray(arr2, length2, low_gran, high_gran);
+    
     //Check arr3
     bool was_3 = CheckArray(arr3, length3, low_gran, high_gran);
-    int p_3 = 1;
-
-    if (was_3)
-    p_3 = CalcArray(arr3, length3, low_gran, high_gran);
-
 
     if (was_1 && was_2 && was_3) {
+        int p_1 = CalcArray(arr1, length1, low_gran, high_gran); 
+        int p_2 = CalcArray(arr2, length2, low_gran, high_gran);
+        int p_3 = CalcArray(arr3, length3, low_gran, high_gran);
     if (p_1 == p_2 && p_2 == p_3)
         printf("all 3 arrs have same proizved\n");
     else if (p_1 == p_2 && p_1 > p_3)
@@ -85,6 +77,9 @@ void main(int argc, char* argv[]){
     else
         printf("arr 3 have most proizved\n");
     } else if (was_1 && was_2) {
+        int p_1 = CalcArray(arr1, length1, low_gran, high_gran); 
+        int p_2 = CalcArray(arr2, length2, low_gran, high_gran);
+
         if (p_1 == p_2)
             printf("arr 1 and 2 have same proizved\n");
         else if (p_1 > p_2)
@@ -92,6 +87,9 @@ void main(int argc, char* argv[]){
         else
             printf("arr 2 have most proizved\n");
     } else if (was_1 && was_3) {
+        int p_1 = CalcArray(arr1, length1, low_gran, high_gran);
+        int p_3 = CalcArray(arr3, length3, low_gran, high_gran);
+
         if (p_1 == p_3)
             printf("arr 1 and 3 have same prozved\n");
         else if (p_1 > p_3)
@@ -99,6 +97,9 @@ void main(int argc, char* argv[]){
         else
             printf("arr 3 have most proizved\n");
     } else if (was_2 && was_3) {
+        int p_2 = CalcArray(arr2, length2, low_gran, high_gran);
+        int p_3 = CalcArray(arr3, length3, low_gran, high_gran);
+
         if (p_2 == p_3)
             printf("arr 2 and 3 have same proizved\n");
         else if (p_2 > p_3)
@@ -106,10 +107,13 @@ void main(int argc, char* argv[]){
         else
             printf("arr 3 have most proizved\n");
     } else if (was_1) {
+        int p_1 = CalcArray(arr1, length1, low_gran, high_gran); 
         printf("arr 1 have most proizved\n");
     } else if (was_2) {
+        int p_2 = CalcArray(arr2, length2, low_gran, high_gran);
         printf("arr 2 have most proizved\n");
     } else if (was_3) {
+        int p_3 = CalcArray(arr3, length3, low_gran, high_gran);
         printf("arr 3 have most proizved\n");
     } else {
         printf("no arrs have elements in range\n");
