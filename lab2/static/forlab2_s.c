@@ -1,25 +1,16 @@
-#include "forlab2_v.h"
+#include "forlab2_s.h"
 
-
-void Init_matrix(int*** matr, size_t row, size_t col) {
-    *matr = (int**)calloc(row, sizeof(int*));
-    for (size_t i = 0; i < row; i++)
-        (*matr)[i] = (int*)calloc(col, sizeof(int));
-    return;
-}
-
-void enter_matrix(int*** matr, size_t* row, size_t* col) {
+void enter_matrix(int (*matr)[MAX_LEN][MAX_LEN], size_t* row, size_t* col) {
     printf("Enter rows and cols: ");
     bool correct_dims = 0;
     while (!correct_dims) {
         scanf("%d %d", row, col);
-        if (row <= 0 || col <= 0)
+        if (*row <= 0 || *row > MAX_LEN || *col <= 0 || *col > MAX_LEN)
             printf("Wrong dims. Try again\n");
         else
             correct_dims = 1;
     }
-
-    Init_matrix(&matr, *row, *col);
+    
     for (size_t i = 0; i < *row; i++) {
         for (size_t j = 0; j < *col; j++) {
             scanf("%d", &(*matr)[i][j]);
@@ -36,11 +27,12 @@ void PrintRowProd(int* res, size_t row){
         else
             printf("in row %zu of mat2 no elem exept nulls\n", i);
     }
+    return;
 }
 
 ///////////Vectors/////////////////
 
-int* CalcMatrixInRow(int** matr, size_t row, size_t col){
+int* CalcMatrixInRow(int matr[MAX_LEN][MAX_LEN], size_t row, size_t col){
     int* res;
     res = (int*) calloc(row, sizeof(int));
     for (size_t i = 0; i < row; i++) {
@@ -50,7 +42,7 @@ int* CalcMatrixInRow(int** matr, size_t row, size_t col){
 }
 
 
-int Calc_row(int* row, size_t cols) {
+int Calc_row(int row[MAX_LEN], size_t cols) {
     int proizved = 1;
     bool has_not_null = CheckRow(row, cols);
     if (has_not_null) {
@@ -65,7 +57,7 @@ int Calc_row(int* row, size_t cols) {
 }
 
 
-bool CheckRow(int* row, size_t col){
+bool CheckRow(int row[MAX_LEN], size_t col){
     bool was_find = false;
     for (size_t j = 0; !was_find && j < col; j++) {
         if (row[j] == 0) {
@@ -76,7 +68,7 @@ bool CheckRow(int* row, size_t col){
 }
 
 
-bool Check_matrix_rows(int** mat, size_t row, size_t col) {
+bool Check_matrix_rows(int mat[MAX_LEN][MAX_LEN], size_t row, size_t col) {
     bool was_find = false;
     for (size_t i = 0; !was_find && i < row; i++) {
         if (CheckRow(mat[i], col))
@@ -87,7 +79,7 @@ bool Check_matrix_rows(int** mat, size_t row, size_t col) {
 
 //////////////////Matrix//////////////////////
 
-bool Check_matrix(int** mat, size_t row, size_t col) {
+bool Check_matrix(int mat[MAX_LEN][MAX_LEN], size_t row, size_t col) {
     bool was_find = false;
     for (size_t i = 0; !was_find && i < row; i++) {
         for (size_t j = 0; !was_find && j < col; j++) {
@@ -100,7 +92,7 @@ bool Check_matrix(int** mat, size_t row, size_t col) {
 }
 
 
-int* CalcMatrix(int** mat, size_t row, size_t col){
+int* CalcMatrix(int mat[MAX_LEN][MAX_LEN], size_t row, size_t col){
     int* res = (int*) calloc(row, sizeof(int));
     for (int i = 0; i < row; i++){
         int pr = 1;

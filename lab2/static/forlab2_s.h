@@ -7,6 +7,8 @@
 
 void enter_matrix(int (*matr)[MAX_LEN][MAX_LEN], size_t* row, size_t* col);
 
+void PrintRowProd(int* res, size_t row);
+
 int* CalcMatrixInRow(int matr[MAX_LEN][MAX_LEN], size_t row, size_t col);
 
 int Calc_row(int row[MAX_LEN], size_t cols);

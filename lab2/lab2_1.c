@@ -1,4 +1,4 @@
-#include "forlab2_s.h"
+#include "static/forlab2_s.h"
 
 
 int main(int argc, char** argv) {

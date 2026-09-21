@@ -1,4 +1,4 @@
-#include "forlab2_v.h"
+#include "din/forlab2_v.h"
 
 int main(int argc, char** argv) {
     int **mat1 = NULL, **mat2 = NULL;
