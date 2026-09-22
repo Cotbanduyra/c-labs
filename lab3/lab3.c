@@ -4,7 +4,7 @@
 int main(int argc, char** argv)
 {
     if (!text_to_binary(argv[1], argv[2])) {
-        printf("Ошибка преобразования\n");
+        printf("Fial of convertion\n");
         return 1;
     }
 
@@ -14,16 +14,16 @@ int main(int argc, char** argv)
     scanf("%d", &i1);
     scanf("%d", &i2);
 
-    printf("До обработки:\n");
+    printf("Before:\n");
     print_binary_file(argv[2]);
 
     
     if (!swap_records(argv[2], i1, i2)) {
-        printf("Ошибка обмена\n");
+        printf("Faild to sawap\n");
         return 1;
     }
 
-    printf("После обработки:\n");
+    printf("After:\n");
     print_binary_file(argv[2]);
 
     return 0;
