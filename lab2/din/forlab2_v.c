@@ -8,21 +8,13 @@ void Init_matrix(int*** matr, size_t row, size_t col) {
     return;
 }
 
-void enter_matrix(int*** matr, size_t* row, size_t* col) {
-    printf("Enter rows and cols: ");
-    bool correct_dims = 0;
-    while (!correct_dims) {
-        scanf("%d %d", row, col);
-        if (row <= 0 || col <= 0)
-            printf("Wrong dims. Try again\n");
-        else
-            correct_dims = 1;
-    }
+void enter_matrix(FILE* from, int*** matr, size_t* row, size_t* col) {
+    fscanf(from, "%zu %zu", row, col);
 
     Init_matrix(matr, *row, *col);
     for (size_t i = 0; i < *row; i++) {
         for (size_t j = 0; j < *col; j++) {
-            scanf("%d", &(*matr)[i][j]);
+            fscanf(from, "%d", &(*matr)[i][j]);
         }
     }
     return;
@@ -41,13 +33,16 @@ void PrintRowProd(int* res, size_t row){
 
 ///////////Vectors/////////////////
 
-int* CalcMatrixInRow(int** matr, size_t row, size_t col){
-    int* res;
-    res = (int*) calloc(row, sizeof(int));
+void CalcMatrixInRow(int** matr, size_t row, size_t col){
+    int res;
     for (size_t i = 0; i < row; i++) {
-        res[i] = Calc_row(matr[i], col);
+        res = Calc_row(matr[i], col);
+        if (res != 0)
+            printf("Proizved of %d row of mat2 is: %d\n", i, res);
+        else
+            printf("in row %d of mat2 no elem exept nulls\n", i);
     }
-    return res;
+    return;
 }
 
 
@@ -101,8 +96,8 @@ bool Check_matrix(int** mat, size_t row, size_t col) {
 }
 
 
-int* CalcMatrix(int** mat, size_t row, size_t col){
-    int* res = (int*) calloc(row, sizeof(int));
+void CalcMatrix(int** mat, size_t row, size_t col, int** res){
+    *res = (int*) calloc(row, sizeof(int));
     for (int i = 0; i < row; i++){
         int pr = 1;
         bool has_not_null = false;
@@ -112,7 +107,70 @@ int* CalcMatrix(int** mat, size_t row, size_t col){
                 pr *= mat[i][j];
             }
         }
-        res[i] = has_not_null ? pr : 0;
+        (*res)[i] = has_not_null ? pr : 0;
+    }
+    return;
+}
+
+
+///////////////////////////////////////////////
+///////////////// ZASHITA /////////////////////
+///////////////////////////////////////////////
+
+bool CheckDims( size_t row, size_t col){
+    return (row == col) && (row > 1);
+}
+
+int ClalcDiag(int** mat, size_t row, size_t col){
+    int res = 0;
+    for (int i = 0; i < row; i++){
+        for(int j = i + 1; j < col; j++){
+            res += mat[i][j];
+        }
     }
     return res;
+}
+
+void SwapDiag(int*** mat, size_t row, size_t col){
+    int buf = 0;
+    for (int i = 0; i < row; i++){
+        buf = (*mat)[i][i];
+        (*mat)[i][i] = (*mat)[row - 1 - i] [i];
+        (*mat)[row - 1 - i][i] = buf;
+    }
+    return;
+}
+
+int CalcDiagRow(int** mat, size_t row, size_t col){
+    int sum = 0;
+    for (int i = 0; i < row - 1; i++)
+        sum += CalcDiagInRow(mat[i], i, col);
+    return sum;
+}
+
+int CalcDiagInRow(int* row, int idx, size_t col){
+    int sum = 0;
+    for (int i = idx + 1; i < col; i++)
+        sum += row[i];
+    return sum;
+}
+
+void SwapInRow(int** mat, size_t row, size_t col){
+    for (int i = 0; i < row; i++)
+        SwapRow(mat[i], row, i);
+}
+
+void SwapRow(int* row, int col, int idx){
+    int temp = row[idx];
+    row[idx] = row[(col - 1) - idx];
+    row[(col - 1) - idx] = temp;
+}
+
+void PrintMatr(int** mat, size_t row, size_t col){
+    for(int i = 0; i < row; i++){
+        for(int j = 0; j < col; j++){
+            printf("%d ", mat[i][j]);
+        }
+        printf("\n");
+    }
 }

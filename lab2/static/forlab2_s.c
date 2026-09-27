@@ -1,26 +1,18 @@
 #include "forlab2_s.h"
 
-void enter_matrix(int (*matr)[MAX_LEN][MAX_LEN], size_t* row, size_t* col) {
-    printf("Enter rows and cols: ");
-    bool correct_dims = 0;
-    while (!correct_dims) {
-        scanf("%d %d", row, col);
-        if (*row <= 0 || *row > MAX_LEN || *col <= 0 || *col > MAX_LEN)
-            printf("Wrong dims. Try again\n");
-        else
-            correct_dims = 1;
-    }
+void enter_matrix(FILE* from, int (*matr)[MAX_LEN][MAX_LEN], size_t* row, size_t* col) {
+    fscanf(from, "%zu %zu", row, col);
     
     for (size_t i = 0; i < *row; i++) {
         for (size_t j = 0; j < *col; j++) {
-            scanf("%d", &(*matr)[i][j]);
+            fscanf(from, "%d", &(*matr)[i][j]);
         }
     }
     return;
 }
 
 
-void PrintRowProd(int* res, size_t row){
+void PrintRowProd(int res[MAX_LEN], size_t row){
     for (size_t i = 0; i < row; i++){
         if (res[i] != 0)
             printf("Proizved of %zu row of mat2 is: %d\n", i, res[i]);
@@ -32,13 +24,17 @@ void PrintRowProd(int* res, size_t row){
 
 ///////////Vectors/////////////////
 
-int* CalcMatrixInRow(int matr[MAX_LEN][MAX_LEN], size_t row, size_t col){
-    int* res;
-    res = (int*) calloc(row, sizeof(int));
+
+void CalcMatrixInRow(int matr[MAX_LEN][MAX_LEN], size_t row, size_t col){
+    int res;
     for (size_t i = 0; i < row; i++) {
-        res[i] = Calc_row(matr[i], col);
+        res = Calc_row(matr[i], col);
+        if (res != 0)
+            printf("Proizved of %d row of mat2 is: %d\n", i, res);
+        else
+            printf("in row %d of mat2 no elem exept nulls\n", i);
     }
-    return res;
+    return;
 }
 
 
@@ -92,8 +88,7 @@ bool Check_matrix(int mat[MAX_LEN][MAX_LEN], size_t row, size_t col) {
 }
 
 
-int* CalcMatrix(int mat[MAX_LEN][MAX_LEN], size_t row, size_t col){
-    int* res = (int*) calloc(row, sizeof(int));
+void CalcMatrix(int mat[MAX_LEN][MAX_LEN], size_t row, size_t col, int res[MAX_LEN]){
     for (int i = 0; i < row; i++){
         int pr = 1;
         bool has_not_null = false;
@@ -105,5 +100,5 @@ int* CalcMatrix(int mat[MAX_LEN][MAX_LEN], size_t row, size_t col){
         }
         res[i] = has_not_null ? pr : 0;
     }
-    return res;
+    return;
 }

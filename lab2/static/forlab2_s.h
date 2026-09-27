@@ -5,11 +5,11 @@
 #define MAX_LEN 20
 
 
-void enter_matrix(int (*matr)[MAX_LEN][MAX_LEN], size_t* row, size_t* col);
+void enter_matrix(FILE* from, int (*matr)[MAX_LEN][MAX_LEN], size_t* row, size_t* col);
 
-void PrintRowProd(int* res, size_t row);
+void PrintRowProd(int res[MAX_LEN], size_t row);
 
-int* CalcMatrixInRow(int matr[MAX_LEN][MAX_LEN], size_t row, size_t col);
+void CalcMatrixInRow(int matr[MAX_LEN][MAX_LEN], size_t row, size_t col);
 
 int Calc_row(int row[MAX_LEN], size_t cols);
 
@@ -19,4 +19,4 @@ bool Check_matrix_rows(int mat[MAX_LEN][MAX_LEN], size_t row, size_t col);
 
 bool Check_matrix(int mat[MAX_LEN][MAX_LEN], size_t row, size_t col);
 
-int* CalcMatrix(int mat[MAX_LEN][MAX_LEN], size_t row, size_t col);
+void CalcMatrix(int mat[MAX_LEN][MAX_LEN], size_t row, size_t col, int res[MAX_LEN]);
