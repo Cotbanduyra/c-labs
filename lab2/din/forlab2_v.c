@@ -123,7 +123,7 @@ bool CheckDims( size_t row, size_t col){
 
 int ClalcDiag(int** mat, size_t row, size_t col){
     int res = 0;
-    for (int i = 0; i < row; i++){
+    for (int i = 0; i < row - 1; i++){
         for(int j = i + 1; j < col; j++){
             res += mat[i][j];
         }
@@ -164,6 +164,7 @@ void SwapRow(int** row, int col, int idx){
     int temp = (*row)[idx];
     (*row)[idx] = (*row)[(col - 1) - idx];
     (*row)[(col - 1) - idx] = temp;
+    return;
 }
 
 void PrintMatr(int** mat, size_t row, size_t col){
@@ -173,4 +174,5 @@ void PrintMatr(int** mat, size_t row, size_t col){
         }
         printf("\n");
     }
+    return;
 }

@@ -1,30 +1,36 @@
 #include "forlab3.h"
 
 
-int main(int argc, char** argv)
-{
-    if (!text_to_binary(argv[1], argv[2])) {
-        printf("Fial of convertion\n");
-        return 1;
+int main(int argc, char** argv){
+    FILE* text = fopen(argv[1], "r");
+    FILE* bin = fopen(argv[2], "rb+");
+
+    if (text && bin){
+        if (!text_to_binary(text, bin)) {
+            printf("Fial of convertion\n");
+        }else{
+
+            int i1, i2;
+
+            printf("what need to swap:");
+            scanf("%d", &i1);
+            scanf("%d", &i2);
+
+            printf("Before:\n");
+            print_binary_file(bin);
+
+
+            if (!swap_records(bin, i1, i2)) {
+                printf("Faild to sawap\n");
+            }else{
+
+                printf("After:\n");
+                print_binary_file(bin);
+            }
+        }
     }
-
-    int i1, i2;
-
-    printf("what need to swap:");
-    scanf("%d", &i1);
-    scanf("%d", &i2);
-
-    printf("Before:\n");
-    print_binary_file(argv[2]);
-
-    
-    if (!swap_records(argv[2], i1, i2)) {
-        printf("Faild to sawap\n");
-        return 1;
-    }
-
-    printf("After:\n");
-    print_binary_file(argv[2]);
+    fclose(text);
+    fclose(bin);
 
     return 0;
 }
