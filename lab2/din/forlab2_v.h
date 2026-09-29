@@ -21,8 +21,18 @@ void CalcMatrix(int** mat, size_t row, size_t col, int** res);
 
 bool CheckDims( size_t row, size_t col);
 
+///////zashita
+
 int ClalcDiag(int** mat, size_t row, size_t col);
 
 void SwapDiag(int*** mat, size_t row, size_t col);
 
 void PrintMatr(int** mat, size_t row, size_t col);
+
+int CalcDiagRow(int** mat, size_t row, size_t col);
+
+int CalcDiagInRow(int* row, int idx, size_t col);
+
+void SwapInRow(int*** mat, size_t row, size_t col);
+
+void SwapRow(int** row, int col, int idx);

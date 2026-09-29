@@ -155,15 +155,15 @@ int CalcDiagInRow(int* row, int idx, size_t col){
     return sum;
 }
 
-void SwapInRow(int** mat, size_t row, size_t col){
+void SwapInRow(int*** mat, size_t row, size_t col){
     for (int i = 0; i < row; i++)
-        SwapRow(mat[i], row, i);
+        SwapRow(&(*mat)[i], col, i);
 }
 
-void SwapRow(int* row, int col, int idx){
-    int temp = row[idx];
-    row[idx] = row[(col - 1) - idx];
-    row[(col - 1) - idx] = temp;
+void SwapRow(int** row, int col, int idx){
+    int temp = (*row)[idx];
+    (*row)[idx] = (*row)[(col - 1) - idx];
+    (*row)[(col - 1) - idx] = temp;
 }
 
 void PrintMatr(int** mat, size_t row, size_t col){
