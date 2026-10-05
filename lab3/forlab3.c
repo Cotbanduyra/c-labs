@@ -98,10 +98,9 @@ bool swap_records(FILE* f, int index1, int index2){
 void print_binary_file(FILE* f){
     fseek(f, 0, SEEK_SET);
     record rec;
-    int i;
 
     while (fread(rec, sizeof(record), 1, f) == 1) {
-        for (i = 0; i < RECORD_SIZE; i++)
+        for (int i = 0; i < RECORD_SIZE; i++)
             printf("%g ", rec[i]);
         printf("\n");
     }
