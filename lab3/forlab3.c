@@ -24,9 +24,10 @@ bool is_valid_self(char* s){
         if (s[i] == '+' || s[i] == '-')
             i++;
         if (s[i] < '0' || s[i] > '9')
-            return false;
-        while (s[i] >= '0' && s[i] <= '9')
-            i++;
+            digits = false;
+        else
+            while (s[i] >= '0' && s[i] <= '9')
+                i++;
     }
 
     return s[i] == '\0' && digits;
