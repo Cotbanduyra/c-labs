@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <unistd.h>
 
 #define RECORD_SIZE 3
 
@@ -13,3 +13,5 @@ bool text_to_binary(FILE* ft, FILE* fb);
 bool check_text_file(FILE* f);
 
 void print_binary_file(FILE* f);
+
+void DelNotRange(FILE* f, float lg, float hg);

@@ -49,7 +49,7 @@ bool check_text_file(FILE* f){
 bool text_to_binary(FILE* ft, FILE* fb){
     fseek(ft, 0, SEEK_SET);
     fseek(fb, 0, SEEK_SET);
-    char* token;
+    char* token = (char*) malloc(0);
     record rec;
     int i = 0;
     bool ok = true;
@@ -79,17 +79,17 @@ bool swap_records(FILE* f, int index1, int index2){
         if (ok) {
             fseek(f, index2 * sizeof(record), SEEK_SET);
             ok = fread(r2, sizeof(record), 1, f) == 1;
-        }
         
-        if (ok) {
-            fseek(f, index2 * sizeof(record), SEEK_SET);
-            ok = fwrite(r1, sizeof(record), 1, f) == 1;
-        }
         
-        if (ok) {
-            fseek(f, index1 * sizeof(record), SEEK_SET);
-            ok = fwrite(r2, sizeof(record), 1, f) == 1;
-        }
+            if (ok) {
+                fseek(f, index2 * sizeof(record), SEEK_SET);
+                ok = fwrite(r1, sizeof(record), 1, f) == 1;
+            
+            
+                if (ok) {
+                    fseek(f, index1 * sizeof(record), SEEK_SET);
+                    ok = fwrite(r2, sizeof(record), 1, f) == 1;
+        }}}
     }
 
     return ok;
@@ -106,5 +106,36 @@ void print_binary_file(FILE* f){
         printf("\n");
     }
 
+    return;
+}
+
+
+/// Удалить фсе записи содержащие жлементы не вход в диапазон
+
+
+bool CheckRecNotRange(record rec, float lg, float hg){
+    bool has_not_range = false;
+    for (short i = 0; i < RECORD_SIZE && !has_not_range; i++)
+        if (rec[i] < lg || rec[i] > hg)
+            has_not_range = true;
+    return has_not_range;
+}
+
+void DelNotRange(FILE* f, float lg, float hg){
+    long write_pos = 0;
+    record rec;
+
+    fseek(f, 0, SEEK_SET);
+    while (fread(rec, sizeof(record), 1, f) == 1) {
+        if (!CheckRecNotRange(rec, lg, hg)) {
+            long read_pos = ftell(f);          
+            fseek(f, write_pos, SEEK_SET);     
+            fwrite(rec, sizeof(record), 1, f);
+            write_pos = ftell(f);              
+            fseek(f, read_pos, SEEK_SET);      
+        }
+    }
+    ftruncate(fileno(f), write_pos);
+    
     return;
 }
