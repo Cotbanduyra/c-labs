@@ -1,15 +1,14 @@
 #include "forlab4.h"
 
-void ReadString(FILE* f, char** str) {
+void ReadString(FILE* f, char** str, int* size) {
     char c;
-    fseek(f, 0, SEEK_SET);
-    int size = 0;
-    while ((c = fgetc(f)) != EOF){
-        *str = (char*) realloc(*str, ++size * sizeof(char));
-        (*str)[size - 1] = c;
-    }
-    *str = (char*) realloc(*str, ++size * sizeof(char));
-    (*str)[size - 1] = '\0';
+    if((c = fgetc(f)) != EOF){
+        *str = (char*) realloc(*str, ++*size * sizeof(char));
+        (*str)[*size - 1] = c;
+        ReadString(f, str, size);
+    }else{
+    *str = (char*) realloc(*str, ++*size * sizeof(char));
+    (*str)[*size - 1] = '\0';}
     return;
 }
 
@@ -17,75 +16,46 @@ bool CheckOfWord(char c){
     return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9');
 }
 
-void CopyStr(char* fstr, char** tstr, int size){
-    *tstr = (char*) malloc(size * sizeof(char));
-    for (int i = 0; i < size; i++)
-        (*tstr)[i] = fstr[i];
+void CopyStr(char* f_str, char** t_str, int start_idx, int end_idx, int* old_size){
+    if (start_idx <= end_idx){
+    *t_str = (char*) realloc(*t_str, (*old_size + 1) * sizeof(char));
+    (*t_str)[(*old_size)++] = f_str[start_idx];
+    CopyStr(f_str, t_str, start_idx + 1, end_idx, old_size);}
     return;
 }
 
-unsigned short SplitIntoWords(char *str, char*** words) {
-    unsigned short word_numb = 0;
-    bool is_word = false;
-    char* buf = (char*) malloc(0); int buf_size = 0;
-    for (int i = 0; str[i] != '\0'; i++){
+bool NoRepeatedLetters(char* f_str, int start_idx, int end_idx){
+    bool no_was_repeated = true;
+    if (start_idx <= end_idx){
+        no_was_repeated = NoRepeatedLetters(f_str, start_idx + 1, end_idx);
+        if (!no_was_repeated) for (int i = start_idx; i <= end_idx && no_was_repeated; i++) no_was_repeated = (f_str[i] != f_str[start_idx]);}
+    return no_was_repeated;
+}
+
+void CreateNewStr(char* f_str, char** t_str, int curr_pos, int word_start, bool is_word){
+    static int size_of_t = 0;
+    if (f_str[curr_pos] != '\0'){
         if (is_word){
-            buf = (char*) realloc(buf, ++buf_size * sizeof(char));
-            if (CheckOfWord(str[i])){
-                buf[buf_size - 1] = str[i];
-            } else {
-                buf[buf_size - 1] = '\0';
-                *words = (char**) realloc(*words, ++word_numb * sizeof(char**));
-                CopyStr(buf, &(*words)[word_numb-1], buf_size);
-                free(buf);
-                buf = (char*) malloc(0);
-                buf_size = 0;
-
+            if (!CheckOfWord(f_str[curr_pos])){
                 is_word = false;
-            }
-        } else{
-            if (CheckOfWord(str[i])){
+                if (NoRepeatedLetters(f_str, word_start, curr_pos)){
+                    CopyStr(f_str, t_str, word_start, curr_pos-1, &size_of_t);}}
+        }else{
+            if (CheckOfWord(f_str[curr_pos])){
                 is_word = true;
-                buf = (char*) realloc(buf, ++buf_size * sizeof(char));
-                buf[buf_size-1] = str[i];
-            }
-        }
-    }
-
-    if (is_word){
-        buf = realloc(buf, ++buf_size * sizeof(char));
-        buf[buf_size - 1] = '\0';
-        *words = (char**) realloc(*words, ++word_numb * sizeof(char**));
-        CopyStr(buf, &(*words)[word_numb-1], buf_size);
-    }
-
-    return word_numb;
+                word_start = curr_pos;}}
+    CreateNewStr(f_str, t_str, ++curr_pos, word_start, is_word);}
+    else if(is_word){CopyStr(f_str, t_str, word_start, curr_pos, &size_of_t);}
+    return;
 }
 
-bool NoRepeatedLetters(char *word) {
-    bool was_repeated = true;
 
-    for(int i = 0; word[i] != '\0' && was_repeated; i++){
-        for(int j = i + 1; word[j] != '\0' && was_repeated; j++){
-            if (word[i] == word[j]) was_repeated = false;
-        }
-    }
-    return was_repeated;
+/*
+bool NoRepeatedLetters(char* f_str, int start_idx, int end_idx){
+    bool no_was_repeated = true;
+    for (int i = start_idx; i < end_idx && no_was_repeated; i++){
+         for(int j = i + 1; j <= end_idx && no_was_repeated; j++){
+            if ( f_str[i] == f_str[j]) no_was_repeated = false;}}
+    return no_was_repeated;
 }
-
-bool CreateStr(char** words, char** str, int nwords){
-    int pos = 0;
-    for (int i = 0; i < nwords; i++) {
-        if (NoRepeatedLetters(words[i])){
-            for (int j = 0; words[i][j] != '\0'; j++) {
-                *str = realloc(*str, ++pos * sizeof(char));
-                (*str)[pos - 1] = words[i][j];
-            }
-        }
-    }
-    if (pos > 0){
-        *str = realloc(*str, ++pos * sizeof(char));
-        (*str)[pos - 1] = '\0';
-    }
-    return pos;
-}
+//*/

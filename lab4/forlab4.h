@@ -1,10 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void ReadString(FILE* f, char** str);
+void ReadString(FILE* f, char** str, int* size);
 
-unsigned short SplitIntoWords(char *str, char*** words);
+void CreateNewStr(char* f_str, char** t_str, int curr_pos, int word_start, bool is_word);
 
-bool NoRepeatedLetters(char *word);
-
-bool CreateStr(char** words, char** str, int nwords);
+bool NoRepeatedLetters(char* f_str, int start_idx, int end_idx);

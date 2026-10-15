@@ -7,24 +7,32 @@ void EnterArray(FILE* f, int** arr, short* length){
         fscanf(f, "%d", &(*arr)[i]);
     }
     return;
-}
+}//asdasfasfassf
 
-bool CheckArray(int* arr, short length, int lg, int hg){
+bool CheckArray(int* arr, short length, int lg, int hg, func_ptr op){
     bool was = false;
     for (int i = 0; i < length && !was; i++){
-        if (arr[i] < lg || arr[i] > hg)
+        if (op(arr[i]) < lg || op(arr[i]) > hg)
             was = true;
     }
     return was;
 }
 
-int CalcArray(int* arr, short length, int lg, int hg, int (*op)(int)){
-    int p = 1;
+int CalcArray(int* arr, short length, int lg, int hg, func_ptr op){
+    double p = 1;
     for (int i = 0; i < length; i++){
         if (arr[i] < lg || arr[i] > hg)
             p *= op(arr[i]);
     }
     return p;
+}
+
+void PrintArray(int* arr, short len, func_ptr func){
+    for (int i = 0; i < len; i++){
+        printf("%lf ", func(arr[i]));
+    }
+    printf("\n");
+    return;
 }
 
 
@@ -45,4 +53,4 @@ int SumAfterNull(int* arr, short length, int idx){
     }
     return sum;
 }
-    //*/
+//*/
