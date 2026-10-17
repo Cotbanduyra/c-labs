@@ -18,9 +18,9 @@ bool CheckOfWord(char c){
 
 void CopyStr(char* f_str, char** t_str, int start_idx, int end_idx, int* old_size){
     if (start_idx <= end_idx){
-    *t_str = (char*) realloc(*t_str, (*old_size + 1) * sizeof(char));
-    (*t_str)[(*old_size)++] = f_str[start_idx];
-    CopyStr(f_str, t_str, start_idx + 1, end_idx, old_size);}
+        *t_str = (char*) realloc(*t_str, (*old_size + 1) * sizeof(char));
+        (*t_str)[(*old_size)++] = f_str[start_idx];
+        CopyStr(f_str, t_str, start_idx + 1, end_idx, old_size);}
     return;
 }
 
