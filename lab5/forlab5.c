@@ -29,7 +29,7 @@ int CalcArray(int* arr, short length, int lg, int hg, func_ptr op){
 
 void PrintArray(int* arr, short len, func_ptr func){
     for (int i = 0; i < len; i++){
-        printf("%lf ", func(arr[i]));
+        printf("%.0lf ", func(arr[i]));
     }
     printf("\n");
     return;
