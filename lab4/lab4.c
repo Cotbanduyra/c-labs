@@ -7,6 +7,8 @@ void main(int argc, char* argv[]){
     ReadString(f, &temp_str, &size_b);
     CreateNewStr(temp_str, &res_str, 0, 0, 0);
     printf("%s\n", res_str);
+    Reverse_words(temp_str, &res_str);
+    printf("%s\n", res_str);
     fclose(f);
     return;
-}
+} // switch position of words
