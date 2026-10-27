@@ -52,15 +52,21 @@ bool SetBits(DATA* x, int p, int n)
 bool InverBits(DATA* x, int n, int k){
     bool sucsess = false;
     if (k < n && n < BITS){
-        DATA temp = ((LIT(1) << k) - 1 ) << n;
+        DATA mask = ((LIT(1) << k) - 1 ) << n;
+        DATA temp = *x & mask;
+        temp = ~temp & mask;
+        *x |= mask;
+        *x &= temp;
+        sucsess = true;
     }
+    return sucsess;
 }
 
 void main(){
     DATA x;
     scanf(SCAN, &x);
     printf(BIN, x);
-    if (SetBits(&x, 5, 4)){
+    if (InverBits(&x, 15, 4)){
         printf(BIN, x);
         printf(HEX, x);
         printf(OCT, x);
