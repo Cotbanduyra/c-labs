@@ -4,15 +4,19 @@
 
 int main(int argc, char** argv){
     
-    Matrix a({{1, 2}, {3, 4}});
-    Matrix b(1, 2);
+    std::cout << argc << "  " << argv[0]; 
 
-    std::cout << "a\n" << a;
-    std::cout << "b\n" << b;
+    Matrix a(3, 3);
+    Matrix b(a, 5);
+
+    std::cout << "a\n"; a.PrintMatrix();
+    std::cout << "b\n"; b.PrintMatrix();
     
     b.FillMatrix();
-    std::cout << "b after person input\n" << b;
 
+    std::cout << "b after person input\n"; b.PrintMatrix();
+
+    /*
     b = a;
     std::cout << "b = a\n" << b;
     
@@ -21,9 +25,13 @@ int main(int argc, char** argv){
     
     a = std::move(b);
     std::cout << "a move(b)\n" << a;
-    
-    a[0][0] = 1024;
-    std::cout << "chnge el\n" << a;
-    std::cout << "double " << double(a) << std::endl;;
+    */
+    a.GetAt(0, 0) = 1024;
+    std::cout << "chnge el\n"; a.PrintMatrix();
+    std::cout << "double " << a.GetAvarage() << std::endl;
+
+    a.FillMatrix();
+        std::cout << "Inverted matrix:\n";
+        a.Invert().PrintMatrix();
     return 0;
 }

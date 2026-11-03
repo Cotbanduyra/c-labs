@@ -1,8 +1,7 @@
 #pragma once
 #include <iostream>
-#include <vector>
 
-typedef std::vector<std::vector<int>> mat;
+typedef int** mat;
 
 class Matrix{
 private:
@@ -12,23 +11,33 @@ public:
     int GetRows() const;
     int GetCols() const;
     mat GetMat()  const;
+    int& GetAt(size_t i, size_t j);
+    const int& GetAt(size_t i, size_t j) const;
     
     Matrix();
     Matrix(int rows, int cols);
     explicit Matrix(int val);
     Matrix(const Matrix& other, int gap = 0);
-    Matrix(std::initializer_list<std::initializer_list<int>> init);
+//  Matrix(std::initializer_list<std::initializer_list<int>> init);
     Matrix(Matrix&& other) noexcept;
 
     ~Matrix();
     
     void FillMatrix();
+    void PrintMatrix();
+    double GetAvarage();
+    
+    Matrix& Invert();//obratnay matrix
 
+    /*
     explicit operator double() const;
     Matrix& operator= (const Matrix& other);
     Matrix& operator= (Matrix&& other) noexcept;
-    std::vector<int>& operator[] (size_t idx);
-    const std::vector<int>& operator[] (size_t idx) const;
+    int*& operator[] (size_t idx);
+    int* const& operator[] (size_t idx) const;
+//*/
 };
-
+/*
 std::ostream& operator<< (std::ostream& os, const Matrix& obj);
+std::istream& operator>> (std::istream& os, Matrix& obj);
+//*/
