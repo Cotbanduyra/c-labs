@@ -35,8 +35,8 @@ public:
     Matrix& operator= (Matrix&& other) noexcept;
     int*& operator[] (size_t idx);
     int* const& operator[] (size_t idx) const;
-    friend Matrix operator+ (const Matrix& first, const Matrix& other);
-    friend Matrix operator- (const Matrix& first, const Matrix& other);
+    Matrix operator+ (const Matrix& other);
+    Matrix operator- (const Matrix& other);
     Matrix& operator+= (const int& k);
 //*/
 };

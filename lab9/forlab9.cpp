@@ -204,23 +204,23 @@ int* const& Matrix::operator[] (size_t idx) const{
     return matrix[idx];
 }
 
-Matrix operator+ (const Matrix& first, const Matrix& other){
-    if (first.rows != other.rows || first.cols != other.cols)
+Matrix Matrix::operator+ (const Matrix& other){
+    if (this->rows != other.rows || this->cols != other.cols)
         std::invalid_argument("Diff dims");
-    Matrix res(first.rows, first.cols);
-    for(int i = 0; i < first.rows; i++)
-        for(int j = 0; j < first.cols; j++)
-            res[i][j] = first[i][j] + other[i][j];
+    Matrix res(rows, cols);
+    for(int i = 0; i < rows; i++)
+        for(int j = 0; j < cols; j++)
+            res[i][j] = (*this)[i][j] + other[i][j];
     return res;
 }
 
-Matrix operator- (const Matrix& first, const Matrix& other){
-    if (first.rows != other.rows || first.cols != other.cols)
+Matrix Matrix::operator- (const Matrix& other){
+    if (this->rows != other.rows || this->cols != other.cols)
         std::invalid_argument("Diff dims");
-    Matrix res(first.rows, first.cols);
-    for(int i = 0; i < first.rows; i++)
-        for(int j = 0; j < first.cols; j++)
-            res[i][j] = first[i][j] - other[i][j];
+    Matrix res(rows, cols);
+    for(int i = 0; i < rows; i++)
+        for(int j = 0; j < cols; j++)
+            res[i][j] = (*this)[i][j] - other[i][j];
     return res;
 }
 
