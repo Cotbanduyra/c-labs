@@ -23,9 +23,9 @@ public:
 
     ~Matrix();
     
-    void FillMatrix();
-    void PrintMatrix();
-    double GetAvarage();
+    void FillMatrix(); // >> 
+    void PrintMatrix(); // <<
+    double GetAvarage(); // double()
     
     Matrix& Invert();//obratnay matrix
 
@@ -35,8 +35,8 @@ public:
     Matrix& operator= (Matrix&& other) noexcept;
     int*& operator[] (size_t idx);
     int* const& operator[] (size_t idx) const;
-    Matrix operator+ (const Matrix& other);
-    Matrix operator- (const Matrix& other);
+    friend Matrix operator+ (const Matrix& first, const Matrix& other);
+    friend Matrix operator- (const Matrix& first, const Matrix& other);
     Matrix& operator+= (const int& k);
 //*/
 };

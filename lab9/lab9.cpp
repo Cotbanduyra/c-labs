@@ -17,19 +17,22 @@ int main(int argc, char** argv){
     std::cout << "b after person input\n"; b.PrintMatrix();
 
     ///*
-    b = a;
-    std::cout << "b = a\n" << b;
+    a = b;
+    std::cout << "a = b\n" << a;
     
     
     a = std::move(b);
     std::cout << "a move(b)\n" << a;
     //*/
     a.GetAt(0, 0) = 1024;
+    a[1][2] = -564;
+    b = Matrix(a, 10);
+    a += 5;
     std::cout << "chnge el\n" << a;
     std::cout << "double " << double(a) << std::endl;
 
-    a.FillMatrix();
-        std::cout << "Inverted matrix:\n";
-        a.Invert().PrintMatrix();
+    std::cout << "a\n" << a << "b\n" << b;
+    std::cout << "a + b" << a+b;
+
     return 0;
 }
