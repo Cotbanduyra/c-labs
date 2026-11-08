@@ -1,4 +1,41 @@
 #include "forlab8.h"
+
+namespace {
+
+bool EliminateColumn(int i, int n, double** a, double** b);
+
+void EliminateRow(int k, int i, int n, double** a, double** b) {
+    double factor = a[k][i];
+    for (int j = 0; j < n; j++) {
+        a[k][j] -= factor * a[i][j];
+        b[k][j] -= factor * b[i][j];
+    }
+}
+
+bool EliminateColumn(int i, int n, double** a, double** b) {
+    double pivot = a[i][i];
+    int pivotRow = i;
+    for (int k = i + 1; k < n; k++) {
+        double v = a[k][i] < 0 ? -a[k][i] : a[k][i];
+        double p = pivot < 0 ? -pivot : pivot;
+        if (v > p) { pivot = a[k][i]; pivotRow = k; }
+    }
+    if (pivot < 0 ? -pivot < 1e-9 : pivot < 1e-9)
+        return false;
+
+    if (pivotRow != i) {
+        std::swap(a[i], a[pivotRow]);
+        std::swap(b[i], b[pivotRow]);
+    }
+    double div = a[i][i];
+    for (int j = 0; j < n; j++) { a[i][j] /= div; b[i][j] /= div; }
+
+    for (int k = 0; k < n; k++)
+        if (k != i) EliminateRow(k, i, n, a, b);
+    return true;
+}
+}
+
 Matrix::Matrix() : rows(0), cols(0), matrix(nullptr) {}
 
 Matrix::Matrix(int rows, int cols) : rows(rows), cols(cols) {
@@ -85,79 +122,34 @@ double Matrix::GetAvarage(){
             sum += this -> GetAt(i , j);
     return sum / (rows * cols);
 }
+
 Matrix& Matrix::Invert() {
     bool ok = true;
-
-    if (rows != cols) {
-        throw std::runtime_error("Not square for invert");
-    }
-    if (rows == 0) {
-        throw std::runtime_error("Empty Matrix");
-    }
+    if (rows != cols) throw std::runtime_error("Not square for invert");
+    if (rows == 0)    throw std::runtime_error("Empty Matrix");
 
     int n = rows;
-
     double** a = new double*[n];
     double** b = new double*[n];
     for (int i = 0; i < n; i++) {
         a[i] = new double[n];
         b[i] = new double[n]();
-        for (int j = 0; j < n; j++)
-            a[i][j] = matrix[i][j];
+        for (int j = 0; j < n; j++) a[i][j] = matrix[i][j];
         b[i][i] = 1.0;
     }
 
-    for (int i = 0; i < n && ok; i++) {
-        double pivot = a[i][i];
-        int pivotRow = i;
-        for (int k = i + 1; k < n; k++) {
-            double v = a[k][i] < 0 ? -a[k][i] : a[k][i];
-            double p = pivot < 0 ? -pivot : pivot;
-            if (v > p) {
-                pivot = a[k][i];
-                pivotRow = k;
-            }
-        }
-        if (pivot < 0 ? -pivot < 1e-9 : pivot < 1e-9) {
-            ok = false;
-        } else {
-            if (pivotRow != i) {
-                std::swap(a[i], a[pivotRow]);
-                std::swap(b[i], b[pivotRow]);
-            }
-            double div = a[i][i];
-            for (int j = 0; j < n; j++) {
-                a[i][j] /= div;
-                b[i][j] /= div;
-            }
-            for (int k = 0; k < n; k++) {
-                if (k != i) {
-                    double factor = a[k][i];
-                    for (int j = 0; j < n; j++) {
-                        a[k][j] -= factor * a[i][j];
-                        b[k][j] -= factor * b[i][j];
-                    }
-                }
-            }
-        }
-    }
-
+    for (int i = 0; i < n && ok; i++)
+        ok = EliminateColumn(i, n, a, b);
+        
     if (ok) {
         for (int i = 0; i < n; i++)
             for (int j = 0; j < n; j++)
                 matrix[i][j] = (int)(b[i][j] < 0 ? b[i][j] - 0.5 : b[i][j] + 0.5);
     }
-
-    for (int i = 0; i < n; i++) {
-        delete[] a[i];
-        delete[] b[i];
-    }
-    delete[] a;
-    delete[] b;
-
+    for (int i = 0; i < n; i++) { delete[] a[i]; delete[] b[i]; }
+    delete[] a; delete[] b;
     return *this;
 }
-
 
 /*
 Matrix::operator double() const {
