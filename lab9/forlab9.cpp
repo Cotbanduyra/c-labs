@@ -40,14 +40,14 @@ bool EliminateColumn(int i, int n, double** a, double** b) {
 Matrix::Matrix() : rows(0), cols(0), matrix(nullptr) {}
 
 Matrix::Matrix(int rows, int cols) : rows(rows), cols(cols) {
-    matrix = new int*[rows];
+    matrix = new Vector[rows];
     for (int i = 0; i < rows; i++)
-        matrix[i] = new int[cols]();
+        matrix[i] = Vector(cols);
 }
 
 Matrix::Matrix(int val) : rows(1), cols(1) {
-    matrix = new int*[1];
-    matrix[0] = new int[1];
+    matrix = new Vector[1];
+    matrix[0] = Vector(1);
     matrix[0][0] = val;
 }
 
@@ -59,9 +59,9 @@ Matrix::Matrix(Matrix&& other) noexcept
 }
 
 Matrix::Matrix(const Matrix& other, int gap) : rows(other.rows), cols(other.cols) {
-    matrix = new int*[rows];
+    matrix = new Vector[rows];
     for (int i = 0; i < rows; i++) {
-        matrix[i] = new int[cols];
+        matrix[i] = Vector(cols);
         for (int j = 0; j < cols; j++)
             matrix[i][j] = other.matrix[i][j] + gap;
     }
@@ -82,47 +82,14 @@ Matrix::Matrix(std::initializer_list<std::initializer_list<int>> init) {
 }//*/
 
 Matrix::~Matrix() {
-    for (int i =0; i < rows; i++) delete [] matrix[i];
     delete [] matrix;
 }
 
 int Matrix::GetCols() const { return cols;}
 int Matrix::GetRows() const { return rows;}
 mat Matrix::GetMat() const  { return matrix;}
-int& Matrix::GetAt(size_t i, size_t j){ return matrix[i][j]; }
-const int& Matrix::GetAt(size_t i, size_t j) const { return matrix[i][j]; }
 
 
-void Matrix::FillMatrix(){
-    std::cout << "Enter element of matrix " << rows << 'x' << cols << ": ";
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            std::cin >> this -> GetAt(i, j);
-        }
-    }
-}
-
-void Matrix::PrintMatrix(){
-    std::cout << this->GetRows() << "x" << this->GetCols() << '\n';
-    for (int i = 0; i < this->GetRows(); i++){
-        for (int j = 0; j < this->GetCols(); j++){
-            std::cout << this->GetAt(i,j) << " "; 
-        }
-        std::cout << "\n";
-    }
-    std::cout << std::endl;
-    return;
-}
-
-double Matrix::GetAvarage(){
-    if (rows == 0 || cols == 0)
-        throw std::runtime_error("Matrix is empty");
-    double sum = 0.0;
-    for (int i = 0; i < rows; i++)
-        for (int j = 0; j < cols; j++)
-            sum += this -> GetAt(i , j);
-    return sum / (rows * cols);
-}
 
 Matrix& Matrix::Invert() {
     bool ok = true;
@@ -155,25 +122,14 @@ Matrix& Matrix::Invert() {
 ///////////////////// OPERATORS //////////////
 
 ///*
-Matrix::operator double() const {
-    if (rows == 0 || cols == 0)
-        throw std::runtime_error("Matrix is empty");
-    double sum = 0.0;
-    for (int i = 0; i < rows; i++)
-        for (int j = 0; j < cols; j++)
-            sum += matrix[i][j];
-    return sum / (rows * cols);
-}
-
 Matrix& Matrix::operator= (const Matrix& other){
     if (this != &other) {
-        int** newMat = new int*[other.rows];
+        mat newMat = new Vector[other.rows];
         for (int i = 0; i < other.rows; i++) {
-            newMat[i] = new int[other.cols];
+            newMat[i] = Vector(other.cols);
             for (int j = 0; j < other.cols; j++)
                 newMat[i][j] = other.matrix[i][j];
         }
-        for (int i = 0; i < rows; i++) delete[] matrix[i];
         delete[] matrix;
         matrix = newMat;
         this->cols = other.GetCols();
@@ -183,12 +139,11 @@ Matrix& Matrix::operator= (const Matrix& other){
 }
 
 Matrix& Matrix::operator= (Matrix&& other) noexcept { 
-    if (this != &other) {
-        for (int i = 0; i < rows; i++) delete[] matrix[i];
+     if (this != &other) {
         delete[] matrix;
+        matrix = other.matrix;
         rows = other.rows;
         cols = other.cols;
-        matrix = other.matrix;
         other.matrix = nullptr;
         other.rows = 0;
         other.cols = 0;
@@ -196,15 +151,15 @@ Matrix& Matrix::operator= (Matrix&& other) noexcept {
     return *this;
 }
 
-int*& Matrix::operator[] (size_t idx){
+Vector& Matrix::operator[] (size_t idx){
     return matrix[idx];
 }
 
-int* const& Matrix::operator[] (size_t idx) const{
+Vector const& Matrix::operator[] (size_t idx) const{
     return matrix[idx];
 }
 
-Matrix Matrix::operator+ (const Matrix& other){
+Matrix Matrix::operator+ (const Matrix& other) const{
     if (this->rows != other.rows || this->cols != other.cols)
         std::invalid_argument("Diff dims");
     Matrix res(rows, cols);
@@ -214,7 +169,7 @@ Matrix Matrix::operator+ (const Matrix& other){
     return res;
 }
 
-Matrix Matrix::operator- (const Matrix& other){
+Matrix Matrix::operator- (const Matrix& other) const{
     if (this->rows != other.rows || this->cols != other.cols)
         std::invalid_argument("Diff dims");
     Matrix res(rows, cols);
@@ -222,6 +177,20 @@ Matrix Matrix::operator- (const Matrix& other){
         for(int j = 0; j < cols; j++)
             res[i][j] = (*this)[i][j] - other[i][j];
     return res;
+}
+
+Matrix Matrix::operator* (const Matrix& other) const{
+    if  (cols != other.rows)
+        std::runtime_error("first rows != second cols");
+    Matrix temp(other.rows, cols);
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < other.cols; j++) {
+            int sum = 0;
+            for (int k = 0; k < cols; k++)
+                sum += matrix[i][k] * other.matrix[k][j];
+            temp.matrix[i][j] = sum;
+        }
+    return temp;
 }
 
 Matrix& Matrix::operator+= (const int& k){
@@ -243,8 +212,13 @@ std::ostream& operator<< (std::ostream& os, const Matrix& obj){
     return os;
 }
 
-std::istream& operator>> (std::istream& os, Matrix& obj){
-    obj.FillMatrix();
-    return os;
+std::istream& operator>> (std::istream& is, Matrix& obj){
+    std::cout << "Enter element of matrix " << obj.GetRows() << 'x' << obj.GetCols() << ": ";
+    for (int i = 0; i < obj.GetRows(); i++) {
+        for (int j = 0; j < obj.GetCols(); j++) {
+            is >> obj[i][j];
+        }
+    }
+    return is;
 }
 //*/

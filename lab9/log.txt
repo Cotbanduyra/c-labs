@@ -1,0 +1,20 @@
+=================================================================
+==4706==ERROR: AddressSanitizer: attempting free on address which was not malloc()-ed: 0x7b6d6ffe0088 in thread T0
+    #0 0x7f0d71f2e421 in operator delete(void*, unsigned long) (/usr/lib/libasan.so.8+0x12e421) (BuildId: b8a4241051a1621937fdc46e867ba7ecb56d96ea)
+    #1 0x564260d67456 in Matrix::operator=(Matrix const&) /home/cotband/codes/c/labs/lab9/forlab9.cpp:175
+    #2 0x564260d5f6cf in main /home/cotband/codes/c/labs/lab9/lab9.cpp:20
+    #3 0x7f0d70e27780  (/usr/lib/libc.so.6+0x27780) (BuildId: d320029ad1a23be2f4bce117fd321cbd23a2014b)
+    #4 0x7f0d70e278b8 in __libc_start_main (/usr/lib/libc.so.6+0x278b8) (BuildId: d320029ad1a23be2f4bce117fd321cbd23a2014b)
+    #5 0x564260d5f294 in _start (/home/cotband/codes/c/labs/lab9/z_vect-san+0x16294) (BuildId: fa2e8e95028528e69b9b40e9d485e0056f707e67)
+
+0x7b6d6ffe0088 is located 8 bytes inside of 56-byte region [0x7b6d6ffe0080,0x7b6d6ffe00b8)
+allocated by thread T0 here:
+    #0 0x7f0d71f2d431 in operator new[](unsigned long) (/usr/lib/libasan.so.8+0x12d431) (BuildId: b8a4241051a1621937fdc46e867ba7ecb56d96ea)
+    #1 0x564260d61b30 in Matrix::Matrix(int, int) /home/cotband/codes/c/labs/lab9/forlab9.cpp:43
+    #2 0x564260d5f5c0 in main /home/cotband/codes/c/labs/lab9/lab9.cpp:9
+    #3 0x7f0d70e27780  (/usr/lib/libc.so.6+0x27780) (BuildId: d320029ad1a23be2f4bce117fd321cbd23a2014b)
+    #4 0x7f0d70e278b8 in __libc_start_main (/usr/lib/libc.so.6+0x278b8) (BuildId: d320029ad1a23be2f4bce117fd321cbd23a2014b)
+    #5 0x564260d5f294 in _start (/home/cotband/codes/c/labs/lab9/z_vect-san+0x16294) (BuildId: fa2e8e95028528e69b9b40e9d485e0056f707e67)
+
+SUMMARY: AddressSanitizer: bad-free /home/cotband/codes/c/labs/lab9/forlab9.cpp:175 in Matrix::operator=(Matrix const&)
+==4706==ABORTING
