@@ -200,6 +200,37 @@ Matrix& Matrix::operator+= (const int& k){
     return *this;
 }
 
+bool Matrix::operator> (const Matrix& other) const{
+    bool res = true;
+    if (rows != other.rows || cols != other.cols)
+        res = false;
+    else
+        for (int i = 0; i < rows && res; i++)
+            for (int j =0; j < cols && res; j++)
+                if (matrix[i][j] < other[i][j])
+                    res = false;
+    return res;
+}
+bool Matrix::operator< (const Matrix& other) const{
+    bool res = true;
+    if (rows != other.rows || cols != other.cols)
+        res = false;
+    else
+        for (int i = 0; i < rows && res; i++)
+            for (int j =0; j < cols && res; j++)
+                if (matrix[i][j] > other[i][j])
+                    res = false;
+    return res;
+}
+
+bool Matrix::operator<= (const Matrix& other) const{
+    return !(this -> operator>(other));
+}
+
+bool Matrix::operator>= (const Matrix& other) const{
+    return !(this -> operator<(other));
+}
+
 std::ostream& operator<< (std::ostream& os, const Matrix& obj){
     os << obj.GetRows() << "x" << obj.GetCols() << '\n';
     for (int i = 0; i < obj.GetRows(); i++){
