@@ -90,7 +90,7 @@ int Matrix::GetRows() const { return rows;}
 mat Matrix::GetMat() const  { return matrix;}
 
 
-
+/*
 Matrix& Matrix::Invert() {
     bool ok = true;
     if (rows != cols) throw std::runtime_error("Not square for invert");
@@ -117,7 +117,7 @@ Matrix& Matrix::Invert() {
     for (int i = 0; i < n; i++) { delete[] a[i]; delete[] b[i]; }
     delete[] a; delete[] b;
     return *this;
-}
+}//*/
 
 ///////////////////// OPERATORS //////////////
 
@@ -193,11 +193,90 @@ Matrix Matrix::operator* (const Matrix& other) const{
     return temp;
 }
 
+Matrix Matrix::operator+ (const int& other) const{
+    return Matrix(*this, other);
+}
+
+Matrix Matrix::operator- (const int& other) const{
+    return Matrix(*this, -other);
+}
+
+Matrix Matrix::operator* (const int& other) const{
+    Matrix temp (*this);
+    for (int i = 0; i < temp.GetRows(); i++)
+        for (int j = 0; j < temp.GetRows(); j++)
+            temp[i][j] *= other;
+    return temp;
+}
+
 Matrix& Matrix::operator+= (const int& k){
     for(int i = 0; i < rows; i++)
         for(int j = 0; j < cols; j++)
             (*this)[i][j] += k;
     return *this;
+}
+
+Matrix& Matrix::operator-= (const int& k){
+    for(int i = 0; i < rows; i++)
+        for(int j = 0; j < cols; j++)
+            (*this)[i][j] -= k;
+    return *this;
+}
+
+Matrix& Matrix::operator*= (const int& k){
+    for(int i = 0; i < rows; i++)
+        for(int j = 0; j < cols; j++)
+            (*this)[i][j] *= k;
+    return *this;
+}
+
+Matrix& Matrix::operator+= (const Matrix& k){
+    if (rows == k.rows && cols == k.cols)
+    for(int i = 0; i < rows; i++)
+        for(int j = 0; j < cols; j++)
+            (*this)[i][j] += k[i][j];
+    return *this;
+}
+
+Matrix& Matrix::operator-= (const Matrix& k){
+    if (rows == k.rows && cols == k.cols)
+    for(int i = 0; i < rows; i++)
+        for(int j = 0; j < cols; j++)
+            (*this)[i][j] -= k[i][j];
+    return *this;
+}
+
+Matrix& Matrix::operator*= (const Matrix& k){
+    if (rows == k.rows && cols == k.cols)
+    for(int i = 0; i < rows; i++)
+        for(int j = 0; j < cols; j++)
+            (*this)[i][j] *= k[i][j];
+    return *this;
+}
+
+
+bool Matrix::operator==(const Matrix& other) const{
+    bool res = true;
+    if (this != &other){
+        if (rows == other.rows && cols == other.cols){
+        for(int i = 0; i < rows && res; i++)
+            for(int j = 0; j < cols && res; j++)
+                if ((*this)[i][j] != other[i][j]) res = false;
+        }
+        else res = false;
+    }
+    return res;
+}
+
+bool Matrix::operator!=(const Matrix& other) const{
+    bool res = true;
+    if (this == &other) res = false;
+    else
+    if (rows == other.rows && cols == other.cols)
+        for(int i = 0; i < rows && res; i++)
+            for(int j = 0; j < cols && res; j++)
+                if ((*this)[i][j] == other[i][j]) res = false;
+    return res;
 }
 
 bool Matrix::operator> (const Matrix& other) const{
@@ -207,7 +286,7 @@ bool Matrix::operator> (const Matrix& other) const{
     else
         for (int i = 0; i < rows && res; i++)
             for (int j =0; j < cols && res; j++)
-                if (matrix[i][j] < other[i][j])
+                if (matrix[i][j] <= other[i][j])
                     res = false;
     return res;
 }
@@ -218,7 +297,7 @@ bool Matrix::operator< (const Matrix& other) const{
     else
         for (int i = 0; i < rows && res; i++)
             for (int j =0; j < cols && res; j++)
-                if (matrix[i][j] > other[i][j])
+                if (matrix[i][j] >= other[i][j])
                     res = false;
     return res;
 }
@@ -230,6 +309,44 @@ bool Matrix::operator<= (const Matrix& other) const{
 bool Matrix::operator>= (const Matrix& other) const{
     return !(this -> operator<(other));
 }
+
+//zahita
+
+Matrix Matrix::operator~() const{
+    bool ok = true;
+    if (rows != cols) throw std::runtime_error("Not square for invert");
+    if (rows == 0)    throw std::runtime_error("Empty Matrix");
+
+    int n = rows;
+    Matrix res(*this);
+
+    double** a = new double*[n];
+    double** b = new double*[n];
+    for (int i = 0; i < n; i++) {
+        a[i] = new double[n];
+        b[i] = new double[n]();
+        for (int j = 0; j < n; j++) a[i][j] = res[i][j];
+        b[i][i] = 1.0;
+    }
+
+    for (int i = 0; i < n && ok; i++)
+        ok = EliminateColumn(i, n, a, b);
+    
+    if (ok) {
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                res[i][j] =
+                    (int)(b[i][j] < 0 ? b[i][j] - 0.5 : b[i][j] + 0.5);
+    }
+
+    for (int i = 0; i < n; i++) { delete[] a[i]; delete[] b[i]; }
+    delete[] a; delete[] b;
+
+    return res;
+}
+
+
+/////////////////////////////
 
 std::ostream& operator<< (std::ostream& os, const Matrix& obj){
     os << obj.GetRows() << "x" << obj.GetCols() << '\n';

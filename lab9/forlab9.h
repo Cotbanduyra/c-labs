@@ -15,27 +15,42 @@ public:
     
     Matrix();
     Matrix(int rows, int cols);
-    explicit Matrix(int val);
+    Matrix(int val);
     Matrix(const Matrix& other, int gap = 0);
     Matrix(Matrix&& other) noexcept;
 
     ~Matrix();
-    Matrix& Invert();//obratnay matrix
+    //Matrix& Invert();//obratnay matrix
 
     ///*
     Matrix& operator= (const Matrix& other);
     Matrix& operator= (Matrix&& other) noexcept;
     Vector& operator[] (size_t idx);
     Vector const& operator[] (size_t idx) const;
+    
     Matrix operator+ (const Matrix& other) const;
     Matrix operator- (const Matrix& other) const;
     Matrix operator* (const Matrix& other) const;
+    Matrix operator+ (const int& other) const;
+    Matrix operator- (const int& other) const;
+    Matrix operator* (const int& other) const;
+
+    bool operator== (const Matrix& other) const;
+    bool operator!= (const Matrix& other) const;
     bool operator> (const Matrix& other) const;
     bool operator< (const Matrix& other) const;
     bool operator<= (const Matrix& other) const;
     bool operator>= (const Matrix& other) const;
-
+    //bool operator== (const int& k) const;
+    //bool operator!= (const int& k) const;
+    
+    Matrix& operator-= (const int& k);
     Matrix& operator+= (const int& k);
+    Matrix& operator*= (const int& k);
+    Matrix& operator-= (const Matrix& k);
+    Matrix& operator+= (const Matrix& k);
+    Matrix& operator*= (const Matrix& k);
+    Matrix operator~() const;
 
 //*/
 };
