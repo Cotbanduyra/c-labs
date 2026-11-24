@@ -1,7 +1,8 @@
 #pragma once
 #include <iostream>
+#include "labvector.h"
 
-typedef int** mat;
+typedef Vector* mat;
 
 class Matrix{
 private:
@@ -11,36 +12,46 @@ public:
     int GetRows() const;
     int GetCols() const;
     mat GetMat()  const;
-    int& GetAt(size_t i, size_t j);
-    const int& GetAt(size_t i, size_t j) const;
     
     Matrix();
     Matrix(int rows, int cols);
-    explicit Matrix(int val);
+    Matrix(int val);
     Matrix(const Matrix& other, int gap = 0);
-//  Matrix(std::initializer_list<std::initializer_list<int>> init);
     Matrix(Matrix&& other) noexcept;
 
     ~Matrix();
-    
-    void FillMatrix(); // >> 
-    void PrintMatrix(); // <<
-    double GetAvarage(); // double()
-    
-    Matrix& Invert();//obratnay matrix
-
     ///*
-    explicit operator double() const;
     Matrix& operator= (const Matrix& other);
     Matrix& operator= (Matrix&& other) noexcept;
-    int*& operator[] (size_t idx);
-    int* const& operator[] (size_t idx) const;
-    friend Matrix operator+ (const Matrix& first, const Matrix& other);
-    friend Matrix operator- (const Matrix& first, const Matrix& other);
+    Vector& operator[] (size_t idx);
+    Vector const& operator[] (size_t idx) const;
+    
+    friend Matrix operator+ (const Matrix& first, const Matrix& second);
+    friend Matrix operator- (const Matrix& first, const Matrix& second);
+    friend Matrix operator* (const Matrix& first, const Matrix& second);
+
+    friend bool operator== (const Matrix& first, const Matrix& second);
+    friend bool operator!= (const Matrix& first, const Matrix& second);
+    friend bool operator> (const Matrix& first, const Matrix& second);
+    friend bool operator< (const Matrix& first, const Matrix& second);
+    friend bool operator<= (const Matrix& first, const Matrix& second);
+    friend bool operator>= (const Matrix& first, const Matrix& second);
+    //bool operator== (const int& k) const;
+    //bool operator!= (const int& k) const;
+    
+    Matrix& operator-= (const int& k);
     Matrix& operator+= (const int& k);
+    Matrix& operator*= (const int& k);
+    Matrix& operator-= (const Matrix& k);
+    Matrix& operator+= (const Matrix& k);
+    Matrix& operator*= (const Matrix& k);
+    Matrix operator~() const;
+
+
+    friend std::ostream& operator<< (std::ostream& os, const Matrix& obj);
+    friend std::istream& operator>> (std::istream& is, Matrix& obj);
+
 //*/
 };
 ///*
-std::ostream& operator<< (std::ostream& os, const Matrix& obj);
-std::istream& operator>> (std::istream& os, Matrix& obj);
 //*/
