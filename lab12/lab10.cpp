@@ -1,0 +1,42 @@
+#include "forlab10.h"
+#include <iostream>
+
+
+int main(int argc, char** argv){
+    
+    Matrix a(1, 1);
+    Matrix b(a, 5);
+
+    std::cout << "a\n" << a;
+    std::cin >> a;
+    std::cout << "~a * a\n";
+    std::cout << ~a * a << std::endl;
+    std::cout << "b after person input\n" << b;
+
+    int x = 9;
+
+    std::cout << (x == a) << (a == x) << std::endl << (x + b) << (b + x) << std::endl;
+
+    std::cout <<  (a < x) << (x < a);
+
+    
+
+    /*
+    a = b;
+    std::cout << "a = b\n" << a;
+    
+    
+    a = std::move(b);
+    std::cout << "a move(b)\n" << a;
+    //*/
+    /*
+    a[1][2] = -564;
+    b = Matrix(a, 10);
+    a += 5;
+    std::cout << "chnge el\n" << a;
+    std::cout << "a\n" << a << "b\n" << b;
+    std::cout << "a + b\n" << a+b;
+    std::cout << "(a + b) * a\n" << (a + b) * a;
+    //*/
+    return 0;
+}
